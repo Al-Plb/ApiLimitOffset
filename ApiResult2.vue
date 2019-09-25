@@ -74,3 +74,69 @@ export default {
   }
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div class="q-pa-md">
+      <q-table
+        title="Treats"
+        :data="datas"
+        :columns="columns"
+        row-key="name"
+      ></q-table>
+      <p>{{datas.info}}</p>
+    </div>
+
+</template>
+
+<script>
+export default {
+  name:'ApiResult',
+  data: function() {
+    return {
+      columns: [
+        {
+          name: 'name',
+          required: true,
+          label: 'name',
+          align: 'left',
+          field: 'name',
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'client', align: 'center', label: 'client', field: 'client', sortable: true },
+        { name: 'family', label: 'family', field: 'family', sortable: true },
+        { name: 'type', label: 'type', field: 'type' },
+      ],
+      datas: []
+      
+    }
+    
+  },
+  mounted() {
+   this.fetchData();
+  }, 
+  methods: {
+    fetchData() {
+          this.axios.get("https://api.cmdb-uat.corp.org.ebrc.local/items?")
+          .then(response => {
+            console.log(response.data.data);
+            this.datas = response.data.data;
+          });
+        }
+    //https://api.cmdb-uat.corp.org.ebrc.local/items?limit="+ limit +"&offset=" + offset
+  }
+}
+</script>
+
+
+
+
